@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>1688页面采集书签 - 新版</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 32px;
+      background: #f3f6fb;
+      color: #0f172a;
+      font-family: "Microsoft YaHei", Arial, sans-serif;
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 26px;
+      border: 1px solid #dbe3ef;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 25px;
+      letter-spacing: 0;
+    }
+    p {
+      margin: 8px 0;
+      color: #64748b;
+      line-height: 1.8;
+    }
+    .bookmarklet {
+      display: inline-flex;
+      align-items: center;
+      height: 42px;
+      margin: 14px 0 20px;
+      padding: 0 18px;
+      border-radius: 8px;
+      background: #2563eb;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .panel {
+      margin: 16px 0;
+      padding: 14px 16px;
+      border: 1px solid #dbeafe;
+      border-radius: 8px;
+      background: #eff6ff;
+      color: #1e3a8a;
+      line-height: 1.8;
+    }
+    .panel strong {
+      color: #0f172a;
+    }
+    textarea {
+      width: 100%;
+      min-height: 82px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 12px;
+      box-sizing: border-box;
+      font-size: 13px;
+      resize: vertical;
+    }
+    button {
+      height: 36px;
+      margin-top: 10px;
+      border: 0;
+      border-radius: 8px;
+      padding: 0 14px;
+      background: #0f172a;
+      color: #fff;
+      cursor: pointer;
+    }
+    ol {
+      margin: 10px 0 0;
+      padding-left: 22px;
+      color: #334155;
+      line-height: 1.9;
+    }
+    code {
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>1688页面采集书签</h1>
+  <p>新版 2026-06-12-v2：把下面的蓝色按钮拖到浏览器收藏栏。之后在普通 Edge 打开的 1688 搜索结果页、店铺页或详情页点击收藏栏书签，即可把公开可见内容导入本地系统。</p>
+
+  <a id="bookmarkletLink" class="bookmarklet" href="#" onclick="return showDragHelp()">1688采集助手</a>
+
+  <div class="panel">
+    <strong>支持模式：</strong>
+    <ol>
+      <li><strong>当前页/详情页采集：</strong>读取当前页面公开可见字段；在详情页会尝试点击“电话联系”，只提取公开弹窗中展示的联系人和号码。</li>
+      <li><strong>可视化批量翻页采集：</strong>在搜索结果页慢速加载后续页，左侧会弹出蓝框预览窗口，方便确认第 2 页、第 3 页等页面是否真的被打开。该模式只读列表可见字段，不进入详情页，所以通常不含联系人和电话。</li>
+      <li><strong>边界：</strong>不会绕过验证、登录或访问限制；遇到验证、访问被拒绝、读取失败会停止，需要人工处理后再继续。</li>
+    </ol>
+  </div>
+
+  <p>如果浏览器不允许拖动书签，可复制下面的短脚本，新建收藏夹并粘贴到网址栏。</p>
+  <textarea id="bookmarkletCode" readonly></textarea>
+  <button type="button" onclick="copyBookmarklet()">复制书签脚本</button>
+</main>
+<script>
+const bookmarkletCode = "javascript:(()=>{const s=document.createElement('script');s.src='http://127.0.0.1:8000/api/page-snapshots/1688/bookmarklet-script?ts='+Date.now();document.body.appendChild(s)})()";
+document.getElementById("bookmarkletLink").href = bookmarkletCode;
+document.getElementById("bookmarkletCode").value = bookmarkletCode;
+
+function showDragHelp() {
+  alert("请把这个蓝色按钮拖到浏览器收藏栏；不要在本安装页直接点击。");
+  return false;
+}
+
+async function copyBookmarklet() {
+  const textarea = document.getElementById("bookmarkletCode");
+  textarea.select();
+  document.execCommand("copy");
+  alert("已复制书签脚本。");
+}
+</script>
+</body>
+</html>
